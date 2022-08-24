@@ -1,11 +1,13 @@
-import 'package:expenses/components/chart_bar.dart';
+import 'package:expenses/components/chart/chart_bar.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class Chart extends StatelessWidget {
-  const Chart(this.recentTransaction);
-
+  Chart(
+    this.recentTransaction, {
+    Key? key,
+  }) : super(key: key);
   final List<Transaction> recentTransaction;
 
   List<Map<String, Object>> get groupedTransactions {

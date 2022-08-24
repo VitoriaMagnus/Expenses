@@ -1,16 +1,17 @@
 import 'dart:io';
-import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AdaptativeDatePicker extends StatelessWidget {
   final Function(DateTime)? onDateChanged;
   final DateTime? selectedDate;
 
-  AdaptativeDatePicker({
-    required this.selectedDate,
+  const AdaptativeDatePicker({
+    Key? key,
     required this.onDateChanged,
-  });
+    required this.selectedDate,
+  }) : super(key: key);
 
   _showDatePicker(BuildContext context) {
     showDatePicker(
@@ -51,11 +52,8 @@ class AdaptativeDatePicker extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: _showDatePicker(context),
-                  style: TextButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.primary,
-                  ),
-                  child: Text(
+                  onPressed: () => _showDatePicker(context),
+                  child: const Text(
                     'Selecionar Data',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

@@ -1,20 +1,25 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdaptativeButton extends StatelessWidget {
   final String? label;
   final Function() onPressed;
-  const AdaptativeButton({this.label, required this.onPressed});
+  const AdaptativeButton({
+    Key? key,
+    this.label,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoButton(
             onPressed: onPressed,
-            child: Text(label!),
             color: Theme.of(context).primaryColor,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(label!),
           )
         : ElevatedButton(
             onPressed: onPressed,

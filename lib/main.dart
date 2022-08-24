@@ -1,22 +1,24 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-import 'package:expenses/components/chart.dart';
-import 'package:expenses/components/transaction_form.dart';
-import 'components/transaction_form.dart';
-import 'components/transaction_list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:expenses/components/transaction/transaction_form.dart';
+import 'package:expenses/components/transaction/transaction_list.dart';
+import 'package:expenses/components/chart/chart.dart';
 import 'models/transaction.dart';
 
 main() => runApp(ExpesesApp());
 
 class ExpesesApp extends StatelessWidget {
   final ThemeData myTheme = ThemeData();
+
+  ExpesesApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const MyHomePage(),
       theme: myTheme.copyWith(
         colorScheme: myTheme.colorScheme.copyWith(
           brightness: Brightness.light,
@@ -49,13 +51,32 @@ class ExpesesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _transactions = [];
   bool _showChart = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -109,9 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
-    final chartList =
-        Platform.isIOS ? CupertinoIcons.refresh : Icons.show_chart;
+    // final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
+    // final chartList =
+    //     Platform.isIOS ? CupertinoIcons.refresh : Icons.show_chart;
 
     final actions = <Widget>[
       if (isLandscape)
@@ -125,12 +146,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       IconButton(
         onPressed: () => _openTransactionFormModal(context),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
     ];
 
     final appBar = AppBar(
-      title: Text('Despesas Pessoais'),
+      title: const Text('Despesas Pessoais'),
       actions: actions,
     );
 
@@ -177,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Platform.isIOS
         ? CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              middle: Text('Despesas Pessoais'),
+              middle: const Text('Despesas Pessoais'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: actions,

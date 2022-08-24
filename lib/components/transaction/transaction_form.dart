@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
 
-  const TransactionForm(this.onSubmit, {Key? key}) : super(key: key);
+  TransactionForm(
+    this.onSubmit, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -42,13 +45,14 @@ class _TransactionFormState extends State<TransactionForm> {
               AdaptativeTextField(
                 label: 'Título',
                 controller: _titleController,
-                onSubmitted: _submitForm(),
+                onSubmitted: (_) => _submitForm(),
               ),
               AdaptativeTextField(
                 label: 'Valor (R\$)',
                 controller: _valueController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: _submitForm(),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => _submitForm(),
               ),
               AdaptativeDatePicker(
                   selectedDate: _selectedDate!,
