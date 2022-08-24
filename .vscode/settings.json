@@ -6,5 +6,6 @@
     "tênis",
     "Título",
     "Transação"
-  ]
+  ],
+  "git.ignoreLimitWarning": true
 }
